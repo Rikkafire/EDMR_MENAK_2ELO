@@ -98,10 +98,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ],
                 ),
-                Center(
-                  child: IconButton(icon: ,
-                  ),
-                )
+                Center(),
               ],
             ),
           ),
