@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 double _currentValue = 0;
 double _currentValue1 = 0;
+double _speedcurrentValue = 0;
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -39,19 +40,19 @@ class _SettingPageState extends State<SettingPage> {
                 height: 20,
                 width: 330,
                 child: Slider(
-                  value: _currentValue,
+                  value: _speedcurrentValue,
                   min: 0,
                   max: 9,
                   divisions: 10,
-                  onChanged: (double newValue) {
+                  onChanged: (double newValuespeed) {
                     setState(() {
-                      _currentValue = newValue;
+                      _speedcurrentValue = newValuespeed;
                     });
                   },
                 ),
               ),
               Text(
-                'Value: ${_currentValue.toStringAsFixed(0)}',
+                'Value: ${_speedcurrentValue.toStringAsFixed(0)}',
                 style: TextStyle(fontSize: 25),
               ),
             ],
@@ -67,7 +68,7 @@ class _SettingPageState extends State<SettingPage> {
 
             child: Column(
               children: [
-                SizedBox(height: 20, width: 20),
+                SizedBox(height: 20, width: 21),
                 Text(
                   "LED",
                   style: TextStyle(fontSize: 20, color: Colors.black),
@@ -78,53 +79,29 @@ class _SettingPageState extends State<SettingPage> {
                     Text("Brightness", style: TextStyle(fontSize: 17)),
                     Container(
                       decoration: BoxDecoration(),
-
                       width: 250,
-
                       child: Slider(
-                        value: _currentValue1,
+                        value: _currentValue,
                         min: 0,
                         max: 9,
                         divisions: 10,
                         onChanged: (double newValue) {
                           setState(() {
-                            _currentValue1 = newValue;
+                            _currentValue = newValue;
                           });
                         },
                       ),
                     ),
                     Text(
-                      'Value: ${_currentValue1.toStringAsFixed(0)}',
+                      'Value: ${_currentValue.toStringAsFixed(0)}',
                       style: TextStyle(fontSize: 17),
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text("Brightness", style: TextStyle(fontSize: 17)),
-                    Container(
-                      decoration: BoxDecoration(),
-
-                      width: 250,
-
-                      child: Slider(
-                        value: _currentValue1,
-                        min: 0,
-                        max: 9,
-                        divisions: 10,
-                        onChanged: (double newValue) {
-                          setState(() {
-                            _currentValue1 = newValue;
-                          });
-                        },
-                      ),
-                    ),
-                    Text(
-                      'Value: ${_currentValue1.toStringAsFixed(0)}',
-                      style: TextStyle(fontSize: 17),
-                    ),
-                  ],
-                ),
+                Center(
+                  child: IconButton(icon: ,
+                  ),
+                )
               ],
             ),
           ),
