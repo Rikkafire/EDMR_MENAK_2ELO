@@ -36,9 +36,8 @@ class _SettingPageState extends State<SettingPage> {
                 "Speed",
                 style: TextStyle(fontSize: 25, color: Colors.deepOrangeAccent),
               ),
-              Container(
-                height: 20,
-                width: 330,
+              SizedBox(width: 10),
+              Expanded(
                 child: Slider(
                   value: _speedcurrentValue,
                   min: 0,
@@ -51,12 +50,14 @@ class _SettingPageState extends State<SettingPage> {
                   },
                 ),
               ),
+              SizedBox(width: 10),
               Text(
                 'Value: ${_speedcurrentValue.toStringAsFixed(0)}',
                 style: TextStyle(fontSize: 25),
               ),
             ],
           ),
+
           SizedBox(height: 20, width: 20),
           Container(
             decoration: BoxDecoration(
@@ -69,14 +70,25 @@ class _SettingPageState extends State<SettingPage> {
             child: Column(
               children: [
                 SizedBox(height: 20, width: 21),
-                Text(
-                  "LED",
-                  style: TextStyle(fontSize: 20, color: Colors.black),
+                Row(
+                  children: [
+                    Icon(Icons.lightbulb)),
+                    SizedBox(width: 8),
+                    Text(
+                      "LED",
+                      style: TextStyle(fontSize: 20, color: Colors.black),
+                      textAlign: TextAlign.end,
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20),
                 Row(
                   children: [
-                    Text("Brightness", style: TextStyle(fontSize: 17)),
+                    Text(
+                      "Brightness",
+                      style: TextStyle(fontSize: 17),
+                      textAlign: TextAlign.start,
+                    ),
                     Container(
                       decoration: BoxDecoration(),
                       width: 250,
@@ -98,7 +110,6 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ],
                 ),
-                Center(),
               ],
             ),
           ),
