@@ -1,0 +1,16 @@
+This is the documantation of the EMDR APP 
+
+
+First we made the widget tree :-we put the selectednotifiers there so select the page from the nar_bar...
+Second we made the notifiers :-to select the selectednotifiers from the nav nar_bar
+Third we made the pages folder :-to organize the pages place 
+                                       (we should trans. the files of the pages to folders to put everything in it)
+Fourth we started working in the settings :in the app bar :
+                                      we put bluthooth icon button: (ktob hon ya 7atom)
+                                           in the body:
+                                                 since we have only range from 1 --> 9 in everything
+                                                 we put 3 sliders(Brightness,Intensity(sound),Intensity(vibration))
+                                                 in a container that are in a coloumn,and we put 8 colors to change 
+                                                 the led colors and types of sounds (clap..) and types of vibration
+                                                 like (dots...).
+Fifth we started working in the home page : (empty)       
