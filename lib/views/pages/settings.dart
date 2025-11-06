@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_kanso/data/notifiers.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -24,7 +25,7 @@ class _SettingPageState extends State<SettingPage> {
           icon: Icon(Icons.bluetooth),
           iconSize: 40,
           onPressed: () {
-            // Action when the leading icon is pressed
+            selectedPageNotifier.value = 3;
           },
         ),
         title: Text('Settings'),
