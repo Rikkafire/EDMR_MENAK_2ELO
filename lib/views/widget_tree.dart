@@ -4,14 +4,8 @@ import 'package:project_kanso/views/Widgets/nav_bar_widget.dart';
 import 'package:project_kanso/views/pages/community.dart';
 import 'package:project_kanso/views/pages/home.dart';
 import 'package:project_kanso/views/pages/settings.dart';
-import 'package:project_kanso/views/pages/connect_devices.dart';
 
-List<Widget> pages = [
-  SettingPage(),
-  HomePage(),
-  CommunityPage(),
-  ConnectDevices(),
-];
+List<Widget> pages = [SettingPage(), HomePage(), CommunityPage()];
 
 class WidgetTree extends StatelessWidget {
   const WidgetTree({super.key});

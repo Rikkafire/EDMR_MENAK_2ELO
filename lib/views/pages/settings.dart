@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_kanso/data/notifiers.dart';
+import 'package:project_kanso/views/pages/connect_devices.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -25,7 +25,10 @@ class _SettingPageState extends State<SettingPage> {
           icon: Icon(Icons.bluetooth),
           iconSize: 40,
           onPressed: () {
-            selectedPageNotifier.value = 3;
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ConnectDevices()),
+            );
           },
         ),
         title: Text('Settings'),
