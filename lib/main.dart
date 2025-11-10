@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_kanso/views/pages/Reception.dart';
-import 'package:project_kanso/views/widget_tree.dart';
 import 'package:project_kanso/library/bluetooth_provider.dart';
 import 'package:provider/provider.dart';
 
