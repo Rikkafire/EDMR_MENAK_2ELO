@@ -6,8 +6,38 @@ class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
-      body: const Center(child: Text('Sign In Page Content Here')),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(
+            MediaQuery.of(context).size.width * 0.1,
+            0,
+            MediaQuery.of(context).size.width * 0.1,
+            0,
+          ),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.35,
+            width: MediaQuery.of(context).size.width * 1,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                Text(
+                  'Sign In',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                TextField(decoration: InputDecoration(labelText: 'Username')),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
