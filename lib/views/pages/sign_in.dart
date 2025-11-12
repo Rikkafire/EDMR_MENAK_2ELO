@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_kanso/views/widget_tree.dart';
 
 class SignIn extends StatelessWidget {
   const SignIn({super.key});
@@ -15,7 +16,7 @@ class SignIn extends StatelessWidget {
             0,
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.35,
+            height: MediaQuery.of(context).size.height * 0.40,
             width: MediaQuery.of(context).size.width * 1,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -32,7 +33,47 @@ class SignIn extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                TextField(decoration: InputDecoration(labelText: 'Username')),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    child: Column(
+                      children: [
+                        SearchBar(hintText: '  Enter your Username'),
+                        SizedBox(height: 20),
+                        SearchBar(hintText: '  Enter your Password'),
+                        SizedBox(height: 30),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (context) => const WidgetTree(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(
+                              255,
+                              65,
+                              91,
+                              111,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 50,
+                              vertical: 15,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            'Sign In',
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
