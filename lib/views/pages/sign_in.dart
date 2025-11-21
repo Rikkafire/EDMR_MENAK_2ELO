@@ -35,43 +35,41 @@ class SignIn extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        SearchBar(hintText: '  Enter your Username'),
-                        SizedBox(height: 20),
-                        SearchBar(hintText: '  Enter your Password'),
-                        SizedBox(height: 30),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (context) => const WidgetTree(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(
-                              255,
-                              65,
-                              91,
-                              111,
+                  child: Column(
+                    children: [
+                      SearchBar(hintText: '  Enter your Username'),
+                      SizedBox(height: 20),
+                      SearchBar(hintText: '  Enter your Password'),
+                      SizedBox(height: 30),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (context) => const WidgetTree(),
                             ),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 50,
-                              vertical: 15,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            65,
+                            91,
+                            111,
                           ),
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 50,
+                            vertical: 15,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                      ],
-                    ),
+                        child: Text(
+                          'Sign In',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
