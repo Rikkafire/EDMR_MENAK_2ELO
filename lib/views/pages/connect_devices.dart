@@ -96,11 +96,7 @@ class DevicesList extends StatelessWidget {
                   Provider.of<BluetoothProvider>(
                     context,
                     listen: false,
-                  ).connectToDevice(device).then((value) {
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                    }
-                  });
+                  ).connectToDevice(device);
                 },
                 icon: const Icon(Icons.check_rounded),
                 label: const Text("Connect"),

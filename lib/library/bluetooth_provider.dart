@@ -30,8 +30,11 @@ class BluetoothProvider extends ChangeNotifier {
     notifyListeners();
     flutterBlue.scanResults.listen((results) {
       if (!_devicesList.any((device) => device.address == results.address)) {
-        _devicesList.add(results);
-        notifyListeners();
+        if (results.name != null) {
+          print("connec");
+          _devicesList.add(results);
+          notifyListeners();
+        }
       }
     });
 
@@ -62,10 +65,11 @@ class BluetoothProvider extends ChangeNotifier {
   }
 
   Future<void> connectToDevice(BluetoothDevice device) async {
-    if (device.name == "Piano LED" && await checkConnection()) {
+    if (await checkConnection()) {
       connection = await flutterBlue.connect(device.address);
       if (connection != null) {
         connectedDevice = device;
+        print(connectedDevice?.name);
       } else {
         connectedDevice = null;
       }
@@ -80,10 +84,9 @@ class BluetoothProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setColor(Color color) async {
+  Future<void> sendData(String data) async {
     if (connectedDevice != null && await checkConnection()) {
-      connection?.output
-          .add(utf8.encode("R${color.r},G${color.g},B${color.b}"));
+      connection?.output.add(utf8.encode(data));
     }
     notifyListeners();
   }

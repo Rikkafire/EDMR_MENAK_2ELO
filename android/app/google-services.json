@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "186213441587",
+    "project_id": "emdr-1713f",
+    "storage_bucket": "emdr-1713f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186213441587:android:805dc43cffe4fb1b7e8346",
+        "android_client_info": {
+          "package_name": "com.example.project_kanso"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe8VYlhgRcKlxpqQzkOxzfyCBrW3M1qo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

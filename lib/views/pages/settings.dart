@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_kanso/library/bluetooth_provider.dart';
 import 'package:project_kanso/views/pages/connect_devices.dart';
+import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -32,9 +34,19 @@ class _SettingPageState extends State<SettingPage> {
             );
           },
         ),
+
         title: Text('Settings'),
         centerTitle: true,
         titleTextStyle: TextStyle(fontSize: 30, color: Colors.white),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.send),
+            iconSize: 40,
+            onPressed: () {
+              context.read<BluetoothProvider>().sendData("Hello from Settings");
+            },
+          ),
+        ],
       ),
       body: Expanded(
         child: Container(
