@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:project_kanso/auth/auth.dart';
+import 'package:project_kanso/views/pages/register_page.dart';
 import 'package:project_kanso/views/widget_tree.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
   const SignIn({super.key});
 
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+  final auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +26,7 @@ class SignIn extends StatelessWidget {
             0,
           ),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.40,
+            height: MediaQuery.of(context).size.height * 0.42,
             width: MediaQuery.of(context).size.width * 1,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -37,37 +47,83 @@ class SignIn extends StatelessWidget {
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: [
-                      SearchBar(hintText: '  Enter your Username'),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: TextField(
+                          controller: emailController,
+                          style: const TextStyle(
+                            color: Colors.black, // <-- text color
+                            fontSize: 16, // optional: change font size
+                          ),
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.search),
+                            border: InputBorder.none,
+                            hintText: "Enter your email",
+                            hintStyle: TextStyle(
+                              color: Colors
+                                  .grey, // optional: change hint text color
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(height: 20),
-                      SearchBar(hintText: '  Enter your Password'),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: TextField(
+                          controller: passController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.lock),
+                            border: InputBorder.none,
+                            hintText: "Enter your password",
+                          ),
+                        ),
+                      ),
                       SizedBox(height: 30),
                       ElevatedButton(
+                        onPressed: () async {
+                          final error = await auth.signIn(
+                            email: emailController.text.trim(),
+                            password: passController.text.trim(),
+                          );
+
+                          if (error != null) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(SnackBar(content: Text(error)));
+                          } else {
+                            // Navigate to main app on success
+                            if (!mounted) return;
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const WidgetTree(),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text("Sign In"),
+                      ),
+                      const SizedBox(height: 10),
+                      // Go to Register Button
+                      TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (context) => const WidgetTree(),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const RegisterPage(),
                             ),
                           );
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            65,
-                            91,
-                            111,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 50,
-                            vertical: 15,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          'Sign In',
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
+                        child: const Text("Don't have an account? Register"),
                       ),
                     ],
                   ),

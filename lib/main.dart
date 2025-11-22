@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:project_kanso/views/pages/reception.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:project_kanso/views/pages/Reception.dart';
 import 'package:project_kanso/library/bluetooth_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 🔥 Initialize Firebase before running the app
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => BluetoothProvider())],
@@ -25,7 +33,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: ReceptionPage(),
+      home: const Reception(),
     );
   }
 }
