@@ -97,12 +97,14 @@ class _SignInState extends State<SignIn> {
 
                           if (error != null) {
                             ScaffoldMessenger.of(
+                              // ignore: use_build_context_synchronously
                               context,
                             ).showSnackBar(SnackBar(content: Text(error)));
                           } else {
                             // Navigate to main app on success
                             if (!mounted) return;
                             Navigator.pushReplacement(
+                              // ignore: use_build_context_synchronously
                               context,
                               MaterialPageRoute(
                                 builder: (_) => const WidgetTree(),

@@ -31,7 +31,7 @@ class BluetoothProvider extends ChangeNotifier {
     flutterBlue.scanResults.listen((results) {
       if (!_devicesList.any((device) => device.address == results.address)) {
         if (results.name != null) {
-          print("connec");
+          print("connect");
           _devicesList.add(results);
           notifyListeners();
         }

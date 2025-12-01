@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:project_kanso/views/pages/Reception.dart';
+import 'package:project_kanso/views/pages/reception.dart';
 import 'package:project_kanso/library/bluetooth_provider.dart';
 import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  runApp(const MyApp());
   // 🔥 Initialize Firebase before running the app
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
