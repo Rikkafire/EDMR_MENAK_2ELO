@@ -6,48 +6,57 @@ import "package:permission_handler/permission_handler.dart";
 
 class BluetoothProvider extends ChangeNotifier {
   FlutterBlueClassic flutterBlue = FlutterBlueClassic(usesFineLocation: true);
+
   Future<bool> get isEnabled => flutterBlue.isEnabled;
+
   bool isScanning = false;
   BluetoothDevice? connectedDevice;
+  BluetoothConnection? connection;
+
   final List<BluetoothDevice> _devicesList = [];
   List<BluetoothDevice> get devicesList => _devicesList;
-  BluetoothConnection? connection;
 
   BluetoothProvider() {
     _init();
   }
 
   Future<void> _init() async {
+    // Request permissions
     await Permission.bluetooth.request();
     await Permission.location.request();
     await Permission.bluetoothScan.request();
     await Permission.bluetoothConnect.request();
 
+    // Auto turn on Bluetooth if needed
     if (!await flutterBlue.isEnabled) {
       flutterBlue.turnOn();
     }
+
     startScan();
-    notifyListeners();
-    flutterBlue.scanResults.listen((results) {
-      if (!_devicesList.any((device) => device.address == results.address)) {
-        if (results.name != null) {
-          print("connect");
-          _devicesList.add(results);
+
+    // Scan results listener
+    flutterBlue.scanResults.listen((device) {
+      // Avoid duplicates + only valid names
+      if (!_devicesList.any((d) => d.address == device.address)) {
+        if ((device.name ?? "").isNotEmpty) {
+          _devicesList.add(device);
           notifyListeners();
         }
       }
     });
 
+    // Bluetooth ON/OFF listener
     flutterBlue.adapterState.listen((state) {
       if (state == BluetoothAdapterState.on) {
         startScan();
-      } else if (state == BluetoothAdapterState.off) {
+      } else {
         stopScan();
       }
       notifyListeners();
     });
   }
 
+  // Start scan if not scanning
   void startScan() {
     if (!isScanning) {
       isScanning = true;
@@ -56,6 +65,7 @@ class BluetoothProvider extends ChangeNotifier {
     }
   }
 
+  // Stop scan if scanning
   void stopScan() {
     if (isScanning) {
       isScanning = false;
@@ -64,12 +74,16 @@ class BluetoothProvider extends ChangeNotifier {
     }
   }
 
+  // Connect to a device
   Future<void> connectToDevice(BluetoothDevice device) async {
-    if (await checkConnection()) {
+    // Only connect if not already connected
+    if (!await checkConnection()) {
       connection = await flutterBlue.connect(device.address);
+
       if (connection != null) {
         connectedDevice = device;
-        print(connectedDevice?.name);
+        stopScan(); // stop scanning after successful connection
+        print("Connected to: ${connectedDevice?.name}");
       } else {
         connectedDevice = null;
       }
@@ -77,44 +91,46 @@ class BluetoothProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Send brightness value
   Future<void> setBrightness(int brightness) async {
     if (connectedDevice != null && await checkConnection()) {
       connection?.output.add(utf8.encode("B$brightness"));
+      await connection?.output.allSent;
     }
-    notifyListeners();
   }
 
+  // Send general data
   Future<void> sendData(String data) async {
     if (connectedDevice != null && await checkConnection()) {
       connection?.output.add(utf8.encode(data));
+      await connection?.output.allSent;
     }
     notifyListeners();
   }
 
+  // Check connection state
   Future<bool> checkConnection() async {
-    if (connectedDevice != null) {
-      try {
-        final isConnected = connection?.isConnected ?? false;
-        if (isConnected) {
-          return true;
-        } else {
-          connectedDevice = null;
-          connection = null;
-          notifyListeners();
-          return false;
-        }
-      } catch (e) {
-        connectedDevice = null;
-        connection = null;
-        notifyListeners();
-        return false;
-      }
+    try {
+      final isConnected = connection?.isConnected ?? false;
+
+      if (isConnected) return true;
+
+      // If disconnected
+      connectedDevice = null;
+      connection = null;
+      notifyListeners();
+      return false;
+    } catch (e) {
+      connectedDevice = null;
+      connection = null;
+      notifyListeners();
+      return false;
     }
-    return false;
   }
 
+  // Disconnect safely
   Future<void> disconnect() async {
-    if (connectedDevice != null && await checkConnection()) {
+    if (await checkConnection()) {
       await connection?.close();
     }
     connectedDevice = null;

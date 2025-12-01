@@ -8,6 +8,8 @@ class ConnectDevices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bluetooth = Provider.of<BluetoothProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Connect to Devices"),
@@ -17,37 +19,52 @@ class ConnectDevices extends StatelessWidget {
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(18)),
         ),
       ),
+
+      // We check Bluetooth status only once!
       body: FutureBuilder<bool>(
-        future: Provider.of<BluetoothProvider>(context, listen: true).isEnabled,
+        future: bluetooth.isEnabled,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
+          }
+
+          if (snapshot.hasError) {
             return const Center(
               child: Text("Error checking Bluetooth status."),
             );
-          } else if (snapshot.hasData && snapshot.data == true) {
-            return const DevicesList();
-          } else {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.bluetooth_disabled, size: 100, color: Colors.red),
-                  SizedBox(height: 16),
-                  Text(
-                    "Bluetooth is disabled!",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            );
           }
+
+          if (snapshot.data == true) {
+            return const DevicesList();
+          }
+
+          return const BluetoothOffScreen();
         },
+      ),
+    );
+  }
+}
+
+class BluetoothOffScreen extends StatelessWidget {
+  const BluetoothOffScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.bluetooth_disabled, size: 100, color: Colors.red),
+          SizedBox(height: 16),
+          Text(
+            "Bluetooth is disabled!",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -58,7 +75,9 @@ class DevicesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final devices = Provider.of<BluetoothProvider>(context).devicesList;
+    final bluetooth = Provider.of<BluetoothProvider>(context);
+    final devices = bluetooth.devicesList;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       child: Card(
@@ -66,40 +85,34 @@ class DevicesList extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         child: ListView.separated(
           itemCount: devices.length,
-          separatorBuilder: (context, index) => const Divider(height: 1),
-          itemBuilder: (buildContext, index) {
+          separatorBuilder: (_, __) => const Divider(height: 1),
+          itemBuilder: (context, index) {
             BluetoothDevice device = devices[index];
+
             return ListTile(
               leading: const Icon(
-                Icons.piano,
+                Icons.devices,
                 color: Colors.deepPurple,
                 size: 32,
               ),
-              title: Text(
-                device.name ?? "Unknown Device",
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
+              title: Text(device.name ?? "Unknown Device"),
               subtitle: Text(device.address.toString()),
+
               trailing: ElevatedButton.icon(
+                icon: const Icon(Icons.link),
+                label: const Text("Connect"),
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green.shade600,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
                 ),
+
                 onPressed: () {
-                  Provider.of<BluetoothProvider>(
-                    context,
-                    listen: false,
-                  ).connectToDevice(device);
+                  bluetooth.connectToDevice(device);
                 },
-                icon: const Icon(Icons.check_rounded),
-                label: const Text("Connect"),
               ),
             );
           },

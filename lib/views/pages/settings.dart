@@ -25,13 +25,14 @@ class _SettingPageState extends State<SettingPage> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         leading: IconButton(
-          icon: Icon(Icons.bluetooth),
-          iconSize: 40,
+          icon: const Icon(Icons.bluetooth),
+          iconSize: 36,
+          color: Colors.blueAccent,
+          tooltip: "Connect to Bluetooth",
           onPressed: () {
-            Navigator.push(
+            Navigator.of(
               context,
-              MaterialPageRoute(builder: (context) => const ConnectDevices()),
-            );
+            ).push(MaterialPageRoute(builder: (_) => const ConnectDevices()));
           },
         ),
 
